@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./video.css">
+    <!-- <script type="module" src="../lib/index.js">
+        import weboVideo from 'webo-video'; console.log(weboVideo, 123)
+    </script> -->
+</head>
+
+<body>
+
+    <video id="vid1" autoplay controls class="video-js">
+    </video>
+    <script src="../lib/index.umd.js"></script>
+
+    <script>
+        let player = weboVideo({
+            el: document.querySelector('#vid1'),
+            url: 'webrtc://192.168.3.242:20204/live/5ac52f4e-5b93-4fa7-9aa5-34e22eb361cd',
+            type: 'webrtc',
+            isLive: true
+        }, {});
+        console.log(player, ' 123');
+
+        // console.log(a, '123');
+        // let player = new weboVideo({
+        //     el: document.querySelector('#video'),
+        //     isLive: true,
+        //     type: "flv",
+        //     url: "http://192.168.3.242:20214/live/05e06ba9-ab2a-44fc-97c5-c0e8992b4675.flv"
+        // }, {
+        //     autoplay: true, //自动播放
+        //     controls: false, //用户可以与之交互的控件
+        //     loop: true, //视频一结束就重新开始
+        //     muted: true, //默认情况下将使所有音频静音
+        //     // aspectRatio: "16:9",//显示比率
+        //     fullscreen: {
+        //         options: {
+        //             navigationUI: 'auto'
+        //         }
+        //     },
+        //     techOrder: ["html5", "flvjs"], // 兼容顺序
+        //     flvjs: {
+        //         mediaDataSource: {
+        //             isLive: false,
+        //             cors: true,
+        //             withCredentials: false,
+        //         },
+        //         config: {
+
+        //             autoCleanupMaxBackwardDuration: 20,
+        //             autoCleanupMinBackwardDuration: 20,
+        //             lazyLoadMaxDuration: 10,
+        //             lazyLoadRecoverDuration: 10,
+
+        //             // enableWorker: true, // 启用分离的线程进行转换
+        //             enableStashBuffer: false, // 关闭IO隐藏缓冲区
+        //             stashInitialSize: 128, // 减少首帧显示等待时长
+
+        //             reuseRedirectedURL: true, //重用301/302重定向url，用于随后的请求，如查找、重新连接等。
+        //             autoCleanupSourceBuffer: true //自动清除缓存
+        //         }
+        //     },
+        //     // sources: [{ src: params.url, type: "video/x-flv" }]
+        // });
+        if (player) {
+            player.play();
+
+            player.on('play', () => {
+                console.log('%c视频播放', 'color:red');
+            });
+            player.on('staermLoad', () => {
+                console.log('%c 加载流', 'color:green');
+            });
+            player.on('load', () => {
+                console.log('加载视频+++++++++');
+            });
+
+            player.on("dbclick", () => {
+                console.log('双击事件');
+            });
+
+            player.on("click", () => {
+                console.log('点击事件111111111111');
+            });
+            player.on('error', (e) => {
+                console.log(`%c 视频错误${JSON.stringify(e)}`, 'color:red');
+            });
+
+            player.on('staermError', () => {
+                console.log('视频流错误++++++++++++++++');
+            });
+        }
+        console.log(player, '这是啥');
+    </script>
+</body>
+
+</html>

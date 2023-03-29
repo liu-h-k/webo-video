@@ -1,14 +1,44 @@
 {
-  "name": "webo-video",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "视频播放"
-  ],
-  "author": "liu-h-k",
-  "license": "ISC"
+    "name": "webo-video",
+    "version": "1.0.16",
+    "description": "",
+    "main": "./lib/index.cjs.js",
+    "module": "./lib/index.esm.js",
+    "browser": "./lib/index.umd.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "rollup -cw",
+        "build": "rollup -c"
+    },
+    "keywords": [
+        "视频播放"
+    ],
+    "type": "module",
+    "author": "liu-h-k",
+    "license": "ISC",
+    "dependencies": {
+        "@rollup/plugin-json": "^6.0.0",
+        "js-web-screen-shot": "^1.8.8",
+        "rollup": "^3.20.0",
+        "video.js": "^8.0.4",
+        "videojs-flvjs-es6": "^1.0.1"
+    },
+    "peerDependencies": {
+        "video.js": "^8.0.4",
+        "videojs-flvjs-es6": "^1.0.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.21.3",
+        "@babel/plugin-external-helpers": "^7.18.6",
+        "@babel/plugin-transform-runtime": "^7.21.0",
+        "@babel/preset-env": "^7.20.2",
+        "@babel/runtime": "^7.21.0",
+        "@babel/runtime-corejs3": "^7.21.0",
+        "@rollup/plugin-babel": "^6.0.3",
+        "@rollup/plugin-commonjs": "^24.0.1",
+        "@rollup/plugin-node-resolve": "^15.0.1",
+        "@rollup/plugin-terser": "^0.4.0",
+        "rollup-plugin-typescript2": "^0.34.1",
+        "typescript": "^5.0.2"
+    }
 }
