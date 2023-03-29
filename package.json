@@ -1,6 +1,6 @@
 {
     "name": "webo-video",
-    "version": "1.0.16",
+    "version": "1.0.25",
     "description": "",
     "main": "./lib/index.cjs.js",
     "module": "./lib/index.esm.js",
@@ -18,14 +18,14 @@
     "license": "ISC",
     "dependencies": {
         "@rollup/plugin-json": "^6.0.0",
+        "flv.js": "^1.6.2",
         "js-web-screen-shot": "^1.8.8",
         "rollup": "^3.20.0",
-        "video.js": "^8.0.4",
-        "videojs-flvjs-es6": "^1.0.1"
+        "video.js": "^8.0.4"
     },
     "peerDependencies": {
         "video.js": "^8.0.4",
-        "videojs-flvjs-es6": "^1.0.1"
+        "flv.js": "^1.6.2"
     },
     "devDependencies": {
         "@babel/core": "^7.21.3",

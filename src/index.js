@@ -1,6 +1,6 @@
 /* eslint-disable no-cond-assign */
 // @ts-nocheck
-import videojs from 'video.js/dist/video.js'
+import videojs from 'video.js/dist/video.js' //
 // flv 插件 
 import flvjs from 'flv.js';
 
@@ -75,7 +75,7 @@ class Flvjs extends Html5 {
  *          - True if the Flvjs tech is supported.
  *          - False otherwise.
  */
-Flvjs.isSupported = function () {
+Flvjs.isSupported = function() {
 
     return flvjs && flvjs.isSupported();
 };
@@ -97,7 +97,7 @@ Flvjs.formats = {
  *        The mimetype to check
  * @return {string} 'probably', 'maybe', or '' (empty string)
  */
-Flvjs.canPlayType = function (type) {
+Flvjs.canPlayType = function(type) {
     if (Flvjs.isSupported() && type in Flvjs.formats) {
         return 'maybe';
     }
@@ -113,7 +113,7 @@ Flvjs.canPlayType = function (type) {
  *        The options passed to the tech
  * @return {string} 'probably', 'maybe', or '' (empty string)
  */
-Flvjs.canPlaySource = function (srcObj, options) {
+Flvjs.canPlaySource = function(srcObj, options) {
     return Flvjs.canPlayType(srcObj.type);
 };
 
@@ -122,13 +122,12 @@ Flvjs.VERSION = '__VERSION__';
 
 videojs.registerTech('Flvjs', Flvjs);
 
-
 // rtc 类
-class RTC {
-    private url;
-    private defaultPath;
-    private pc
-    onaddstream: any;
+export class RTC {
+    url;
+    defaultPath;
+    pc
+    onaddstream;
     constructor(url) {
         this.url = url;
         this.defaultPath = '/rtc/v1/play/';
@@ -152,20 +151,20 @@ class RTC {
         // this.pc.onicecandidate = this.onicecandidate;
     }
 
-    onsignalingstatechange = function (state) {
+    onsignalingstatechange = function(state) {
         console.info('ddddd', state)
     };
 
-    oniceconnectionstatechange = function (state) {
+    oniceconnectionstatechange = function(state) {
         console.info('ccccc:', state)
     };
 
-    onicegatheringstatechange = function (state) {
+    onicegatheringstatechange = function(state) {
         console.info('bbbbb:', state)
     };
 
     // 切换轨道
-    handleOnTrack = function (e) {
+    handleOnTrack = function(e) {
         console.log('handleOnTrack', e.streams);
         // if (self.video.srcObject !== e.streams[0]) {
         //     console.log('setting video stream from ontrack');
@@ -173,7 +172,7 @@ class RTC {
         // }
     };
 
-    onicecandidate = function (e) {
+    onicecandidate = function(e) {
         if (e.candidate) {
             // self.onWebRtcCandidate(JSON.stringify(e.candidate));
         }
@@ -189,7 +188,7 @@ class RTC {
             offerToReceiveVideo: 1
         });
         await this.pc.setLocalDescription(offer)
-        let session: any = await new Promise((resolve, reject) => {
+        let session = await new Promise((resolve, reject) => {
             let data = {
                 api: conf.apiUrl,
                 streamurl: conf.streamUrl,
@@ -197,9 +196,9 @@ class RTC {
                 sdp: offer.sdp
             }
             fetch(conf.apiUrl.replace("1986", "1985"), {
-                method: "POST",
-                body: JSON.stringify(data)
-            })
+                    method: "POST",
+                    body: JSON.stringify(data)
+                })
                 .then(response => response.json())
                 .then(res => {
                     if (res.code) {
@@ -213,22 +212,22 @@ class RTC {
         });
         // 接收订阅
         await this.pc.setRemoteDescription(
-            new RTCSessionDescription({ type: 'answer', sdp: session.sdp })
-        )
-        // console.log('iceConnectionState', this.pc.iceConnectionState)
-        // this.pc.onsignalingstatechange = (e) => {
-        //     console.log('onsignalingstatechange', e)
-        // }
-        // this.pc.onloadedmetadata = (e) => {
-        //     console.log('onloadedmetadata', e)
-        // }
-        // this.pc.iceconnectionstatechange = (e) => {
-        //     console.log('iceconnectionstatechange', e);
-        //     console.log('iceConnectionState1', this.pc.iceConnectionState)
-        // }
-        // this.pc.oniceconnectionstatechange = (e) => {
-        //     console.log('oniceconnectionstatechange', e);
-        // }
+                new RTCSessionDescription({ type: 'answer', sdp: session.sdp })
+            )
+            // console.log('iceConnectionState', this.pc.iceConnectionState)
+            // this.pc.onsignalingstatechange = (e) => {
+            //     console.log('onsignalingstatechange', e)
+            // }
+            // this.pc.onloadedmetadata = (e) => {
+            //     console.log('onloadedmetadata', e)
+            // }
+            // this.pc.iceconnectionstatechange = (e) => {
+            //     console.log('iceconnectionstatechange', e);
+            //     console.log('iceConnectionState1', this.pc.iceConnectionState)
+            // }
+            // this.pc.oniceconnectionstatechange = (e) => {
+            //     console.log('oniceconnectionstatechange', e);
+            // }
         return session
     }
     close() {
@@ -236,7 +235,7 @@ class RTC {
         this.pc = null;
     }
     prepareUrl(webrtcUrl) {
-        let urlObject: any = this.parse(webrtcUrl)
+        let urlObject = this.parse(webrtcUrl)
         let schema = urlObject.user_query.schema;
         schema = schema ? schema + ':' : window.location.protocol;
         let port = urlObject.port || 1985;
@@ -287,7 +286,7 @@ class RTC {
         if (url.indexOf("://")) {
             schema = url.substr(0, url.indexOf("://"))
         }
-        let port: any = a.port
+        let port = a.port
         if (!port) {
             if (schema === 'http') {
                 port = 80;
@@ -297,7 +296,7 @@ class RTC {
                 port = 1935;
             }
         }
-        let ret: any = {
+        let ret = {
             url: url,
             schema: schema,
             server: a.hostname,
@@ -350,17 +349,20 @@ class RTC {
 export class weboVideojs {
 
     // 播放状态 null ready playing played error
-    #playStatus = null;
+
+    playStatus = null;
 
     // 断流配置
-    #cutoutConfig = {
+
+    cutoutConfig = {
         max: 10, // 最大重复次数
         num: 0, //  当前时间重复次数
         time: 0 // 当前时间
     }
 
     // flv 倍数播放配置
-    #flvConfig = {
+
+    flvConfig = {
         maxDelta: 1, // 最大跳帧延迟
         rate1: 1.5, // 倍数播放1
         maxRateDelta: 1, //最大倍数播放延迟
@@ -368,7 +370,8 @@ export class weboVideojs {
     }
 
     // video 配置
-    #videoConf = {
+
+    videoConf = {
         url: '',
         type: '', // flv | webrtc | rtmp | mp4
         el: '', // 可以传video dom 或者视频容器盒子
@@ -376,49 +379,54 @@ export class weboVideojs {
     }
 
     // 初始化订阅者 
-    #eventObj = {};
+
+    eventObj = {};
 
     // 播放器
-    #player = null;
+
+    player = null;
 
     // 容器
-    #el = null;
+
+    el = null;
 
     // web rtc 容器
-    #RTC = null;
+
+    RTC = null;
 
     // 定时器
-    #interTime: any = 0;
+
+    interTime = 0;
 
     constructor(myConfig, videoConfig) {
 
         // video 配置
-        this.#videoConf = this.initVideoConfig(myConfig);
+        this.videoConf = this.initVideoConfig(myConfig);
 
         // 初始化播放器
         this.initPlay(videoConfig);
     }
 
     // 初始化播放器
-    private initPlay(videoConfig) {
+    initPlay(videoConfig) {
 
         // videojs 配置
-        this.#player = videojs(this.#el, this.initConfig(videoConfig), () => {
+        this.player = videojs(this.el, this.initConfig(videoConfig), () => {
 
-            this.#player.on('ready', (e) => {
+            this.player.on('ready', (e) => {
                 this.emit('ready');
                 this.setPlayStatus('ready');
             });
-            this.#player.on('webkitbeginfullscreen', () => { });
-            this.#player.on('loadedmetadata', () => { });
-            this.#player.on('click', e => {
-                // this.#el.play();
+            this.player.on('webkitbeginfullscreen', () => {});
+            this.player.on('loadedmetadata', () => {});
+            this.player.on('click', e => {
+                // this.el.play();
                 this.emit('click')
             });
-            this.#player.on('load', (e) => {
+            this.player.on('load', (e) => {
                 this.emit('load')
             })
-            this.#player.on('play', () => {
+            this.player.on('play', () => {
 
                 this.emit('play');
                 this.clearTime();
@@ -429,20 +437,20 @@ export class weboVideojs {
                 this.createInterTime();
             });
 
-            this.#player.on('error', (e) => {
+            this.player.on('error', (e) => {
                 this.emit('error', e);
                 this.setPlayStatus('error')
             });
-            this.#player.on('ended', () => {
+            this.player.on('ended', () => {
                 this.emit('ended');
                 this.setPlayStatus('played')
             });
-            this.#player.on('data', (e) => { });
+            this.player.on('data', (e) => {});
         });
     }
 
-    // this.#el 事件监听
-    private eventFun(type) {
+    // this.el 事件监听
+    eventFun(type) {
         let self = this;
 
         function onClcik() {
@@ -451,10 +459,10 @@ export class weboVideojs {
 
         let funObj = {
             add: () => {
-                this.#el.addEventListener('click', onClcik);
+                this.el.addEventListener('click', onClcik);
             },
             remove: () => {
-                this.#el.removeEventListener('click', onClcik);
+                this.el.removeEventListener('click', onClcik);
             }
         }
         funObj[type]();
@@ -463,25 +471,25 @@ export class weboVideojs {
 
     // 事件监听
     on(eventName, cb) {
-        if (!this.#eventObj[eventName]) this.#eventObj[eventName] = [];
-        this.#eventObj[eventName].push(cb);
+        if (!this.eventObj[eventName]) this.eventObj[eventName] = [];
+        this.eventObj[eventName].push(cb);
     }
 
     // 取消监听
     off(eventName) {
-        this.#eventObj[eventName] = []
+        this.eventObj[eventName] = []
     }
 
     // 发布
-    private emit(eventName, ...rest) {
-        if (!this.#eventObj[eventName]) return;
-        this.#eventObj[eventName].forEach(cb => {
+    emit(eventName, ...rest) {
+        if (!this.eventObj[eventName]) return;
+        this.eventObj[eventName].forEach(cb => {
             cb(rest)
         });
     }
 
     // 默认配置config
-    private initConfig(config) {
+    initConfig(config) {
         return Object.assign({}, {
             autoplay: true,
             controls: false,
@@ -489,23 +497,23 @@ export class weboVideojs {
     }
 
     // 默认配置myConfig
-    private initVideoConfig(config) {
+    initVideoConfig(config) {
 
         if (!config.el) return console.error('视频容器必传');
         let isLive = config.type == 'mp4' ? false : true
 
         if (config.el.nodeName == 'VIDEO') {
-            this.#el = config.el;
+            this.el = config.el;
         } else {
-            this.#el = document.createElement('video');
-            this.#el.setAttribute('class', 'video-js');
-            this.#el.setAttribute('autoplay', 'autoplay');
+            this.el = document.createElement('video');
+            this.el.setAttribute('class', 'video-js');
+            this.el.setAttribute('autoplay', 'autoplay');
 
-            config.el.append(this.#el);
+            config.el.append(this.el);
         }
 
         // 初始化监听双击事件和单机事件
-        // if (this.#el) {
+        // if (this.el) {
         //     this.eventFun('add');
         // }
 
@@ -519,85 +527,85 @@ export class weboVideojs {
 
     // 获取播放器
     getPlayer() {
-        return this.#player;
+        return this.player;
     }
 
     // 获取播放容器
     getVideoEL() {
-        return this.#el;
+        return this.el;
     }
 
     // 断开连接
     dispose() {
         // 销毁事件
-        // if (this.#el) {
+        // if (this.el) {
         //     this.eventFun('remove');
         // }
-        // this.#player.dispose();
-        this.#player = null;
-        this.#el = null;
+        // this.player.dispose();
+        this.player = null;
+        this.el = null;
         this.closeRTC();
         this.clearTime();
     }
 
     clearPlayer() {
+        this.player.dispose();
         this.dispose();
-        this.#player.disable();
     }
 
     // 关闭RTC
-    private closeRTC() {
-        if (this.#RTC) {
-            this.#RTC.close();
-            this.#RTC = null;
+    closeRTC() {
+        if (this.RTC) {
+            this.RTC.close();
+            this.RTC = null;
         }
     }
 
     // 关闭定时器
-    private clearTime() {
-        if (this.#interTime) {
-            clearInterval(this.#interTime)
+    clearTime() {
+        if (this.interTime) {
+            clearInterval(this.interTime)
         }
     }
 
     // 当视频开始播放 创建一个定时器
-    private createInterTime() {
-        this.#interTime = setInterval(() => {
+    createInterTime() {
+        this.interTime = setInterval(() => {
             // 是否直播
-            if (this.#videoConf.isLive && this.#player && this.#player.buffered) {
-                let end = this.#player.buffered().end(0); //获取当前buffered值(缓冲区末尾)
-                let delta = end - this.#player.currentTime(); //获取buffered与当前播放位置的差值
-                // console.log('流的最后一帧', end, '当前播放帧', this.#player.currentTime(), '延迟', delta, '重复次数', this.#cutoutConfig.num);
+            if (this.videoConf.isLive && this.player && this.player.buffered) {
+                let end = this.player.buffered().end(0); //获取当前buffered值(缓冲区末尾)
+                let delta = end - this.player.currentTime(); //获取buffered与当前播放位置的差值
+                // console.log('流的最后一帧', end, '当前播放帧', this.player.currentTime(), '延迟', delta, '重复次数', this.cutoutConfig.num);
                 //当视频开始播放 计算播放时间
-                if (this.#player.currentTime() == this.#cutoutConfig.time) {
-                    this.#cutoutConfig.num += 1;
-                    if (this.#cutoutConfig.max == this.#cutoutConfig.num) {
-                        this.#cutoutConfig.num = 0;
+                if (this.player.currentTime() == this.cutoutConfig.time) {
+                    this.cutoutConfig.num += 1;
+                    if (this.cutoutConfig.max == this.cutoutConfig.num) {
+                        this.cutoutConfig.num = 0;
                         this.clearTime();
                         this.closeRTC();
                         this.emit('staermError');
                         this.setPlayStatus('error')
                     }
                 } else {
-                    this.#cutoutConfig.time = this.#player.currentTime();
-                    this.#cutoutConfig.num = 0
+                    this.cutoutConfig.time = this.player.currentTime();
+                    this.cutoutConfig.num = 0
                 }
             }
 
             // flv 跳帧
-            if (this.#videoConf.type == 'flv' && this.#player && this.#player.buffered) {
-                let end = this.#player.buffered().end(0); //获取当前buffered值(缓冲区末尾)
-                let delta = end - this.#player.currentTime(); //获取buffered与当前播放位置的差值
-                // console.log('流的最后一帧', end, '当前播放帧', this.#player.currentTime(), '延迟', delta, '重复次数', this.#cutoutConfig.num);
+            if (this.videoConf.type == 'flv' && this.player && this.player.buffered) {
+                let end = this.player.buffered().end(0); //获取当前buffered值(缓冲区末尾)
+                let delta = end - this.player.currentTime(); //获取buffered与当前播放位置的差值
+                // console.log('流的最后一帧', end, '当前播放帧', this.player.currentTime(), '延迟', delta, '重复次数', this.cutoutConfig.num);
                 // 延迟过大，通过跳帧的方式更新视频
-                if (delta > this.#flvConfig.maxDelta) {
+                if (delta > this.flvConfig.maxDelta) {
                     // 跳帧
-                    // this.#player.currentTime = this.#player.buffered().end(0) - 0.5;
+                    // this.player.currentTime = this.player.buffered().end(0) - 0.5;
                     // 倍数播放
-                    this.#player.playbackRate(this.#flvConfig.rate1); // 1.5
+                    this.player.playbackRate(this.flvConfig.rate1); // 1.5
                 } else {
                     // 恢复正常倍速
-                    this.#player.playbackRate(1);
+                    this.player.playbackRate(1);
                 }
             }
 
@@ -607,8 +615,8 @@ export class weboVideojs {
             }
 
             if (this.getPlayStatus() == 'read') {
-                this.#cutoutConfig.num += 1;
-                if (this.#cutoutConfig.num == this.#cutoutConfig.max) {
+                this.cutoutConfig.num += 1;
+                if (this.cutoutConfig.num == this.cutoutConfig.max) {
                     this.emit('error', { msg: '视频播放失败' })
                 }
             }
@@ -617,40 +625,40 @@ export class weboVideojs {
 
     // 设置视频配置
     setVideoConfig(obj = { url: '', type: '' }) {
-        this.#videoConf = this.initVideoConfig(obj);
+        this.videoConf = this.initVideoConfig(obj);
     }
 
     // 播放视频
     play() {
-        switch (this.#videoConf.type) {
+        switch (this.videoConf.type) {
             case "mp4":
                 // mp4 直接将地址给this.demo
-                if (!this.#videoConf.url.endsWith('.mp4')) return console.error('视频地址格式不正确');
-                this.#el.src = this.#videoConf.url;
+                if (!this.videoConf.url.endsWith('.mp4')) return console.error('视频地址格式不正确');
+                this.el.src = this.videoConf.url;
                 break;
             case "webrtc":
-                if (!this.#videoConf.url.startsWith('webrtc')) return console.error('视频地址格式不正确');
-                this.#RTC = new RTC(this.#videoConf.url);
-                this.#RTC.onaddstream = (e) => {
-                    this.#el.srcObject = e.stream;
-                    // this.#el.click();
+                if (!this.videoConf.url.startsWith('webrtc')) return console.error('视频地址格式不正确');
+                this.RTC = new RTC(this.videoConf.url);
+                this.RTC.onaddstream = (e) => {
+                    this.el.srcObject = e.stream;
+                    // this.el.click();
                     this.emit('staermLoad')
                 }
-                this.#RTC.play(this.#videoConf.url).then(res => {
+                this.RTC.play(this.videoConf.url).then(res => {
                     console.log('视频播放')
                 })
                 break;
             case "hls":
                 break;
             case "flv":
-                if (!this.#videoConf.url.endsWith('.flv')) return console.error('视频地址格式不正确');
+                if (!this.videoConf.url.endsWith('.flv')) return console.error('视频地址格式不正确');
                 // 设置视频流
-                this.#player.src([{ src: this.#videoConf.url, type: "video/x-flv" }]);
-                this.#player.load(this.#videoConf.url);
-                this.#player.play();
+                this.player.src([{ src: this.videoConf.url, type: "video/x-flv" }]);
+                this.player.load(this.videoConf.url);
+                this.player.play();
                 // setTimeout(() => {
 
-                // this.#el.click();
+                // this.el.click();
                 // }, 1000);
 
                 break;
@@ -661,18 +669,18 @@ export class weboVideojs {
      * 设置播放状态
      * @param {*} type 
      */
-    private setPlayStatus(type) {
-        this.#playStatus = type;
+    setPlayStatus(type) {
+        this.playStatus = type;
     }
 
     // 返回播放状态
     getPlayStatus() {
-        return this.#playStatus;
+        return this.playStatus;
     }
 
     // 设置buffer数据
     setBuffer(data) {
-        this.#player.appendBuffer(data)
+        this.player.appendBuffer(data)
     }
 }
 

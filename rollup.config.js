@@ -3,7 +3,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import terser from '@rollup/plugin-terser';
 import babel from "@rollup/plugin-babel";
-import rollupTypescript from 'rollup-plugin-typescript2'
 
 import { createRequire } from 'node:module';
 const require = createRequire(
@@ -11,7 +10,7 @@ const require = createRequire(
 const pkg = require('./package.json');
 
 export default {
-    input: "src/index.ts",
+    input: "src/index.js",
     output: [{
             file: pkg.main,
             format: 'cjs',
@@ -29,15 +28,13 @@ export default {
         },
 
     ],
-    external: ["video.js", "videojs-flvjs-es6"],
+    external: ["video.js", 'flv.js'],
     ignore: [pkg.main, pkg.module, pkg.browser],
     plugins: [
         commonjs({
             include: /node_modules/
         }),
         json(),
-        // rollup 编译 typescript 
-        rollupTypescript(),
         resolve(),
         terser(),
         babel({
