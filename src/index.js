@@ -349,11 +349,9 @@ export class RTC {
 export class weboVideojs {
 
     // 播放状态 null ready playing played error
-
     playStatus = null;
 
     // 断流配置
-
     cutoutConfig = {
         max: 10, // 最大重复次数
         num: 0, //  当前时间重复次数
@@ -361,7 +359,6 @@ export class weboVideojs {
     }
 
     // flv 倍数播放配置
-
     flvConfig = {
         maxDelta: 1, // 最大跳帧延迟
         rate1: 1.5, // 倍数播放1
@@ -370,7 +367,6 @@ export class weboVideojs {
     }
 
     // video 配置
-
     videoConf = {
         url: '',
         type: '', // flv | webrtc | rtmp | mp4
@@ -379,23 +375,18 @@ export class weboVideojs {
     }
 
     // 初始化订阅者 
-
     eventObj = {};
 
     // 播放器
-
     player = null;
 
     // 容器
-
     el = null;
 
     // web rtc 容器
-
     RTC = null;
 
     // 定时器
-
     interTime = 0;
 
     constructor(myConfig, videoConfig) {
@@ -409,10 +400,8 @@ export class weboVideojs {
 
     // 初始化播放器
     initPlay(videoConfig) {
-
         // videojs 配置
         this.player = videojs(this.el, this.initConfig(videoConfig), () => {
-
             this.player.on('ready', (e) => {
                 this.emit('ready');
                 this.setPlayStatus('ready');
@@ -427,12 +416,9 @@ export class weboVideojs {
                 this.emit('load')
             })
             this.player.on('play', () => {
-
                 this.emit('play');
                 this.clearTime();
-
                 this.setPlayStatus('playing');
-
                 // 开启定时器
                 this.createInterTime();
             });
@@ -456,7 +442,6 @@ export class weboVideojs {
         function onClcik() {
             self.emit('click')
         }
-
         let funObj = {
             add: () => {
                 this.el.addEventListener('click', onClcik);
@@ -466,7 +451,6 @@ export class weboVideojs {
             }
         }
         funObj[type]();
-
     }
 
     // 事件监听
@@ -490,15 +474,54 @@ export class weboVideojs {
 
     // 默认配置config
     initConfig(config) {
-        return Object.assign({}, {
+        // 默认配置
+        let params = {
             autoplay: true,
             controls: false,
-        }, config || {})
+        }
+        if (this.videoConf.type == 'flv') {
+            // flv 默认配置
+            params = {
+                autoplay: true, //自动播放
+                controls: true, //用户可以与之交互的控件
+                loop: true, //视频一结束就重新开始
+                muted: true, //默认情况下将使所有音频静音
+                // aspectRatio: "16:9",//显示比率
+                fullscreen: {
+                    options: {
+                        navigationUI: 'auto'
+                    }
+                },
+                techOrder: ["html5", "flvjs"], // 兼容顺序
+                flvjs: {
+                    mediaDataSource: {
+                        isLive: false,
+                        cors: true,
+                        withCredentials: false,
+                    },
+                    config: {
+
+                        autoCleanupMaxBackwardDuration: 20,
+                        autoCleanupMinBackwardDuration: 20,
+                        lazyLoadMaxDuration: 10,
+                        lazyLoadRecoverDuration: 10,
+
+                        // enableWorker: true, // 启用分离的线程进行转换
+                        enableStashBuffer: false, // 关闭IO隐藏缓冲区
+                        stashInitialSize: 128, // 减少首帧显示等待时长
+
+                        reuseRedirectedURL: true, //重用301/302重定向url，用于随后的请求，如查找、重新连接等。
+                        autoCleanupSourceBuffer: true //自动清除缓存
+                    },
+                    // sources: [{ src: params.url, type: "video/x-flv" }]
+                }
+            }
+        }
+        return Object.assign({}, params, config || {})
     }
 
     // 默认配置myConfig
     initVideoConfig(config) {
-
         if (!config.el) return console.error('视频容器必传');
         let isLive = config.type == 'mp4' ? false : true
 
@@ -687,7 +710,5 @@ export class weboVideojs {
 const weboVideo = (myConfig, videoConfig) => {
     return new weboVideojs(myConfig, videoConfig)
 }
-
-
 
 export default weboVideo;
