@@ -4,6 +4,58 @@ import videojs from 'video.js/dist/video.js' //
 // flv 插件 
 import flvjs from 'flv.js';
 
+// mpegts flv h265 视频格式 使用实例
+// import mpegts from "mpegts.js";
+// flvPlayer = mpegts.createPlayer({
+//     type: "flv", // could also be mpegts, m2ts, flv
+//     isLive: true,
+//     url: url,
+//     liveBufferLatencyChasing: true,
+//     enableWorker: true,
+// }, {
+//     enableWorker: true,
+//     lazyLoadMaxDuration: 15,
+//     seekType: "range",
+//     liveBufferLatencyChasing: true,
+//     liveBufferLatencyMaxLatency: 2,
+//     liveBufferLatencyMinRemain: 0.1,
+//     lazyLoad: true,
+//     enableStashBuffer: false,
+//     autoCleanupSourceBuffer: true,
+//     autoCleanupMaxBackwardDuration: 5,
+//     autoCleanupMinBackwardDuration: 3,
+// });
+
+// flvPlayer.on("error", (err) => {
+//     if (err !== "NetworkError") return;
+//     hintTxt.value = "连接视频中...";
+//     clearSdk();
+
+//     let num = Number(
+//         sessionStorage.getItem("stream_timeout_restart") || 15
+//     );
+//     if (timer) {
+//         clearInterval(timer);
+//         timer = null;
+//     }
+//     timer = setInterval(() => {
+//         num = num - 1;
+//         hintTxt.value = `重连倒计时(${num})秒`;
+//         if (num == 0) {
+//             clearInterval(timer);
+//             timer = null;
+
+//             setStart(); // 拉取视频
+//         }
+//     }, 1000);
+// });
+// flvPlayer.attachMediaElement(
+//     document.querySelector(".mpegts-video--" + randomId)
+// );
+
+// flvPlayer.load();
+// flvPlayer.play();
+
 // videojs + flv.js 插件
 const Html5 = videojs.getTech('Html5');
 const mergeOptions = videojs.mergeOptions || videojs.util.mergeOptions;
