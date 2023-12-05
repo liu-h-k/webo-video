@@ -601,7 +601,6 @@ export class weboVideojs {
                 // console.log('流的最后一帧', end, '当前播放帧', this.player.currentTime(), '延迟', delta, '重复次数', this.cutoutConfig.num);
                 //当视频开始播放 计算播放时间
                 if (this.player.currentTime() == this.cutoutConfig.time) {
-                    this.cutoutConfig.num += 1;
                     if (this.cutoutConfig.max == this.cutoutConfig.num) {
                         this.cutoutConfig.num = 0;
                         this.clearTime();
@@ -609,6 +608,8 @@ export class weboVideojs {
                         this.emit('staermError');
                         this.setPlayStatus('error')
                     }
+                    this.cutoutConfig.num += 1;
+
                 } else {
                     this.cutoutConfig.time = this.player.currentTime();
                     this.cutoutConfig.num = 0
@@ -667,9 +668,7 @@ export class weboVideojs {
                     // this.el.click();
                     this.emit('staermLoad')
                 }
-                this.RTC.play(this.videoConf.url).then(res => {
-                    console.log('视频播放')
-                })
+                this.RTC.play(this.videoConf.url).then(res => {})
                 break;
             case "hls":
                 break;
@@ -704,6 +703,11 @@ export class weboVideojs {
     // 设置buffer数据
     setBuffer(data) {
         this.player.appendBuffer(data)
+    }
+
+    // 设置静音
+    setMuted(val) {
+        this.player.muted(Boolean(val));
     }
 }
 

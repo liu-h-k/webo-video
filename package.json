@@ -1,6 +1,6 @@
 {
     "name": "webo-video",
-    "version": "1.0.26",
+    "version": "1.0.35",
     "description": "",
     "main": "./lib/index.cjs.js",
     "module": "./lib/index.esm.js",

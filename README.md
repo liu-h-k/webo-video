@@ -27,7 +27,7 @@ let sdk = new RTC(config.url);
 sdk.onaddstream = (event) => {
    el.srcObject = event.stream;
 }
-this.sdk.play(url).then(res => {
+sdk.play(url).then(res => {
 });
 ```
 
@@ -44,6 +44,7 @@ dispose | 断开连接 | -
 clearPlayer | 断开连接并且删除 video 容器 | -
 getPlayer | 获取播放器 | -
 getVideoEL | 获取video 容器 | -
+setMuted | 设置静音状态 | boolean
 
 
 ## 事件回调
